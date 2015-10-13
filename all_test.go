@@ -14,7 +14,10 @@ func TestAll(t *testing.T) {
 		}
 		return false
 	}
-	out := All(isEven, in)
+	out, err := All(isEven, in)
+	if err != nil {
+		t.Fatalf("All() failed: %v", err)
+	}
 	if !reflect.DeepEqual(expect, out) {
 		t.Fatalf("All() failed: expected %v got %v", expect, out)
 	}

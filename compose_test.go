@@ -5,10 +5,10 @@ import (
 )
 
 func TestCompose(t *testing.T) {
-	add := func(a, b int) {
+	add := func(a, b int) int {
 		return a + b
 	}
-	minusOne := func(a int) {
+	minusOne := func(a int) int {
 		return a - 1
 	}
 	isEven := func(a int) bool {
@@ -17,7 +17,10 @@ func TestCompose(t *testing.T) {
 		}
 		return false
 	}
-	rawFunc, funcType := Compose(add, minusOne, isEven)
+	rawFunc, funcType, err := Compose(add, minusOne, isEven)
+	if err != nil {
+		t.Fatalf("Compose() failed: %v", err)
+	}
 	if _, ok := rawFunc.(funcType); !ok {
 		t.Fatalf("Compose() failed: returned wrong funcType")
 	}

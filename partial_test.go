@@ -5,10 +5,13 @@ import (
 )
 
 func TestPartial(t *testing.T) {
-	add := func(a, b) {
+	add := func(a, b int) int {
 		return a + b
 	}
-	rawAddTwo, funcType := Partial(add, 2)
+	rawAddTwo, funcType, err := Partial(add, 2)
+	if err != nil {
+		t.Fatalf("Partial() failed: %v", err)
+	}
 	if _, ok := rawAddTwo.(funcType); !ok {
 		t.Fatalf("Partial() failed: returned wrong funcType")
 	}

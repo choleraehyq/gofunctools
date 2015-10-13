@@ -11,7 +11,10 @@ func TestApply(t *testing.T) {
 	double := func(in int) int {
 		return in * 2
 	}
-	out := Apply(double, a)
+	out, err := Apply(double, in)
+	if err != nil {
+		t.Fatalf("Apply() failed: %v", err)
+	}
 	if !reflect.DeepEqual(expect, out) {
 		t.Fatalf("Apply() failed: expected %v got %v", expect, out)
 	}

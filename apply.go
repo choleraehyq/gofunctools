@@ -1,13 +1,16 @@
 package functools
 
 import (
+	"errors"
 	"reflect"
 )
 
 func Apply(function, slice interface{}) (ret interface{}, err error) {
 	err = nil
 	defer func() {
-		err = recover()
+		if interfaceErr := recover(); interfaceErr != nil {
+			err = errors.New(interfaceErr.(string))
+		}
 	}()
 	ret = apply(function, slice)
 	return
@@ -23,24 +26,24 @@ func apply(function, slice interface{}) interface{} {
 	if !verifyApplyFuncType(fn, inType) {
 		panic("apply: Function must be of type func(" + inType.String() + ") outputElemType")
 	}
-    var param [1]reflect.Value
-    out := in
-    for i := 0; i < in.Len(); i++ {
-        param[0] = in.Index(i)
-        out.Index(i).Set(fn.Call(param[:])[0])
-    }
-    return out.interface()
+	var param [1]reflect.Value
+	out := in
+	for i := 0; i < in.Len(); i++ {
+		param[0] = in.Index(i)
+		out.Index(i).Set(fn.Call(param[:])[0])
+	}
+	return out.Interface()
 }
 
 func verifyApplyFuncType(fn reflect.Value, elemType reflect.Type) bool {
-    if fn.Kind() != reflect.Func {
-        return false
-    }
-    if fn.Type().NumIn() != 1 || fn.Type().NumOut() != 1 {
-        return false
-    }
-    if fn.Type().In(0) != elemType {
-        return false
-    }
-    return true
+	if fn.Kind() != reflect.Func {
+		return false
+	}
+	if fn.Type().NumIn() != 1 || fn.Type().NumOut() != 1 {
+		return false
+	}
+	if fn.Type().In(0) != elemType {
+		return false
+	}
+	return true
 }

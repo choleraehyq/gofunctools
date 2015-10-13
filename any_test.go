@@ -14,7 +14,10 @@ func TestAny(t *testing.T) {
 		}
 		return false
 	}
-	out := Any(isEven, in)
+	out, err := Any(isEven, in)
+	if err != nil {
+		t.Fatalf("Any() failed: %v", err)
+	}
 	if !reflect.DeepEqual(expect, out) {
 		t.Fatalf("Any() failed: expected %v got %v", expect, out)
 	}

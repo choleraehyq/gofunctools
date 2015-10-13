@@ -14,7 +14,10 @@ func TestFilter(t *testing.T) {
 		}
 		return false
 	}
-	out := Filter(isEven, in)
+	out, err := Filter(isEven, in)
+	if err != nil {
+		t.Fatalf("Filter() failed: %v", err)
+	}
 	if !reflect.DeepEqual(expect, out) {
 		t.Fatalf("Filter() failed: expected %v got %v", expect, out)
 	}

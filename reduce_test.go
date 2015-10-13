@@ -12,7 +12,10 @@ func TestReduce(t *testing.T) {
 		return a + b
 	}
 	expect := 6
-	out := Reduce(add, in, initial)
+	out, err := Reduce(add, in, initial)
+	if err != nil {
+		t.Fatalf("Reduce() failed: %v", err)
+	}
 	if !reflect.DeepEqual(expect, out) {
 		t.Fatalf("Reduce() failed: expect %v got %v", expect, out)
 	}
