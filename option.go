@@ -1,11 +1,11 @@
 package functools
 
 import (
-	"reflect"
 	"errors"
+	"reflect"
 )
 
-struct Option {
+type Option struct {
 	val interface{}
 }
 

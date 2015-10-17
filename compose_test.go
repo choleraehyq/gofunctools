@@ -17,16 +17,12 @@ func TestCompose(t *testing.T) {
 		}
 		return false
 	}
-	rawFunc, funcType, err := Compose(add, minusOne, isEven)
+	composedFunc, err := Compose(add, minusOne, isEven)
 	if err != nil {
 		t.Fatalf("Compose() failed: %v", err)
 	}
-	if _, ok := rawFunc.(funcType); !ok {
-		t.Fatalf("Compose() failed: returned wrong funcType")
-	}
-	composedFunc := rawFunc.(funcType)
 	expect := true
-	out := composedFunc(1, 2)
+	out := composedFunc(1, 2).(bool)
 	if expect != out {
 		t.Fatalf("Compose() failed: expected %v got %v", expect, out)
 	}

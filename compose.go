@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func Compose(functions ...interface{}) (ret interface{}, funcType reflect.Type, err error) {
+func Compose(functions ...interface{}) (ret func(...interface{}) interface{}, err error) {
 	err = nil
 	defer func() {
 		if interfaceErr := recover(); interfaceErr != nil {
@@ -17,7 +17,7 @@ func Compose(functions ...interface{}) (ret interface{}, funcType reflect.Type, 
 	return
 }
 
-func compose(functions ...interface{}) (ret interface{}, funcType reflect.Type) {
+func compose(functions ...interface{}) (ret func(...interface{}) interface{}) {
 	firstFn := reflect.ValueOf(functions[0])
 	inType := make([]reflect.Type, 0, firstFn.Type().NumIn())
 	for i := 0; i < firstFn.Type().NumIn(); i++ {
@@ -32,18 +32,18 @@ func compose(functions ...interface{}) (ret interface{}, funcType reflect.Type) 
 
 	verifyComposeFuncType(functions)
 
-	composedFunc := func(in []reflect.Value) []reflect.Value {
-		param := in
+	composedFunc := func(in ...interface{}) interface{} {
+		param := make([]reflect.Value, 0, len(in))
+		for _, inParam := range in {
+			param = append(param, reflect.ValueOf(inParam))
+		}
 		for i := 0; i < len(functions); i++ {
 			thisFn := reflect.ValueOf(functions[i])
 			param = thisFn.Call(param[:])
 		}
-		return param
+		return param[0].Interface()
 	}
-
-	realFunc := reflect.MakeFunc(funcType, composedFunc)
-	ret = realFunc.Interface()
-	return
+	return composedFunc
 }
 
 func verifyComposeFuncType(functions []interface{}) {

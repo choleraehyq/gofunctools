@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func Partial(function interface{}, params ...interface{}) (ret interface{}, funcType reflect.Type, err error) {
+func Partial(function interface{}, params ...interface{}) (ret func(...interface{}) interface{}, err error) {
 	err = nil
 	defer func() {
 		if interfaceErr := recover(); interfaceErr != nil {
@@ -16,7 +16,7 @@ func Partial(function interface{}, params ...interface{}) (ret interface{}, func
 	return
 }
 
-func partial(function interface{}, params ...interface{}) (ret interface{}, funcType reflect.Type) {
+func partial(function interface{}, params ...interface{}) (ret func(...interface{}) interface{}) {
 	fn := reflect.ValueOf(function)
 	if fn.Kind() != reflect.Func {
 		panic("partial: The first param is not a function")
@@ -29,24 +29,15 @@ func partial(function interface{}, params ...interface{}) (ret interface{}, func
 		panic("partial: The type of function and params are not matched")
 	}
 
-	inType := make([]reflect.Type, 0, fn.Type().NumIn()-len(params))
-	for i := len(params); i < fn.Type().NumIn(); i++ {
-		inType = append(inType, fn.Type().In(i))
-	}
-	outType := make([]reflect.Type, 0, fn.Type().NumOut())
-	for i := 0; i < fn.Type().NumOut(); i++ {
-		outType = append(outType, fn.Type().Out(i))
-	}
-	funcType = reflect.FuncOf(inType, outType, false)
-
-	partialedFunc := func(in []reflect.Value) []reflect.Value {
+	partialedFunc := func(in ...interface{}) interface{} {
 		params := make([]reflect.Value, 0, len(in)+len(inElem))
 		params = append(params, inElem...)
-		params = append(params, in...)
-		return fn.Call(params[:])
+		for _, inParam := range in {
+			params = append(params, reflect.ValueOf(inParam))
+		}
+		return fn.Call(params[:])[0].Interface()
 	}
-	ret = reflect.MakeFunc(funcType, partialedFunc)
-	return
+	return partialedFunc
 }
 
 func verifyPartialFuncType(fn reflect.Value, in []reflect.Value) bool {
