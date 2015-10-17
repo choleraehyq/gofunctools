@@ -27,7 +27,7 @@ func filter(function, slice interface{}) interface{} {
 		panic("apply: Function must be of type func(" + inType.String() + ") bool")
 	}
 	var param [1]reflect.Value
-	out := reflect.MakeSlice(inType, 0, in.Len())
+	out := reflect.MakeSlice(in.Type(), 0, in.Len())
 	for i := 0; i < in.Len(); i++ {
 		param[0] = in.Index(i)
 		if fn.Call(param[:])[0].Bool() {

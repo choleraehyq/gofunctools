@@ -8,11 +8,11 @@ import (
 func Partial(function interface{}, params ...interface{}) (ret func(...interface{}) interface{}, err error) {
 	err = nil
 	defer func() {
-		if interfaceErr := recover(); interfaceErr != nil {
-			err = errors.New(interfaceErr.(string))
+		if errString := recover(); errString != nil {
+			err = errors.New(errString.(string))
 		}
 	}()
-	ret, funcType = partial(function, params...)
+	ret = partial(function, params...)
 	return
 }
 
@@ -44,7 +44,7 @@ func verifyPartialFuncType(fn reflect.Value, in []reflect.Value) bool {
 	if fn.Type().NumIn() <= len(in) {
 		return false
 	}
-	for i := 0; i < fn.Type().NumIn(); i++ {
+	for i := 0; i < len(in); i++ {
 		if fn.Type().In(i) != in[i].Type() {
 			return false
 		}

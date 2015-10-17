@@ -36,9 +36,9 @@ func TestBind(t *testing.T) {
 	double := func(in int) int {
 		return in * 2
 	}
-	opt := opt.Bind(double)
-	if !reflect.DeepEqual(expect, opt) {
-		t.Fatalf("Option.Bind() failed: expected %v got %v", expect, opt)
+	ret := opt.Bind(double)
+	if !reflect.DeepEqual(expect, ret) {
+		t.Fatalf("Option.Bind() failed: expected %v got %v", expect, ret)
 	}
 }
 

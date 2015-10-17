@@ -1,7 +1,6 @@
 package functools
 
 import (
-	"errors"
 	"reflect"
 )
 
@@ -9,7 +8,7 @@ type Option struct {
 	val interface{}
 }
 
-const None = Option{nil}
+var None Option = Option{nil}
 
 func Some(i interface{}) Option {
 	return Option{i}
@@ -42,6 +41,7 @@ func (this *Option) Bind(function interface{}) Option {
 		panic("Bind: Function must be of type func (valType) Option")
 	}
 	var param [1]reflect.Value
+	param[0] = reflect.ValueOf(this.Unwrap())
 	out := fn.Call(param[:])[0]
 	return Option{out.Interface()}
 }
@@ -68,7 +68,7 @@ func (this *Option) verifyBindFuncType(fn reflect.Value) bool {
 		return false
 	}
 	val := reflect.ValueOf(this.val)
-	if fn.Type().In(1) != val.Type() {
+	if fn.Type().In(0) != val.Type() {
 		return false
 	}
 	return true

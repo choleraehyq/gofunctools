@@ -13,22 +13,11 @@ func Compose(functions ...interface{}) (ret func(...interface{}) interface{}, er
 			err = errors.New(interfaceErr.(string))
 		}
 	}()
-	ret, funcType = compose(functions...)
+	ret = compose(functions...)
 	return
 }
 
 func compose(functions ...interface{}) (ret func(...interface{}) interface{}) {
-	firstFn := reflect.ValueOf(functions[0])
-	inType := make([]reflect.Type, 0, firstFn.Type().NumIn())
-	for i := 0; i < firstFn.Type().NumIn(); i++ {
-		inType = append(inType, firstFn.Type().In(i))
-	}
-	lastFn := reflect.ValueOf(functions[len(functions)-1])
-	outType := make([]reflect.Type, 0, lastFn.Type().NumOut())
-	for i := 0; i < lastFn.Type().NumOut(); i++ {
-		outType = append(outType, lastFn.Type().Out(i))
-	}
-	funcType = reflect.FuncOf(inType, outType, false)
 
 	verifyComposeFuncType(functions)
 

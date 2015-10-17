@@ -30,12 +30,11 @@ func reduce(function, slice, initial interface{}) interface{} {
 		panic("reduce: Function must be of type func(" + inType.String() + ")" + inType.String())
 	}
 	var param [2]reflect.Value
-	var out reflect.Value
-	out.Set(reflect.ValueOf(initial))
+	out := reflect.ValueOf(initial)
 	for i := 0; i < in.Len(); i++ {
 		param[0] = out
 		param[1] = in.Index(i)
-		out.Set(fn.Call(param[:])[0])
+		out = fn.Call(param[:])[0]
 	}
 	return out.Interface()
 }
@@ -47,7 +46,7 @@ func verifyReduceFuncType(fn reflect.Value, elemType reflect.Type) bool {
 	if fn.Type().NumIn() != 2 || fn.Type().NumOut() != 1 {
 		return false
 	}
-	if elemType != fn.Type() || fn.Type().In(0) != fn.Type().In(1) || fn.Type().In(1) != fn.Type().Out(0) {
+	if elemType != fn.Type().In(0) || fn.Type().In(0) != fn.Type().In(1) || fn.Type().In(1) != fn.Type().Out(0) {
 		return false
 	}
 	return true
