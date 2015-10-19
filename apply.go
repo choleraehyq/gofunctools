@@ -1,3 +1,5 @@
+// Package functools is a simple Golang library including some commonly used functional programming tools.
+// There is no generic in golang, so most of the functions will return interface{}, be sure to type assert it to the type you want before you use it.
 package functools
 
 import (
@@ -5,6 +7,14 @@ import (
 	"reflect"
 )
 
+// Apply applys a function(the first parameter) to each element of a slice(second parameter). Just like Map in other language.
+// Example:
+// in := []int{1, 2, 3}
+// double := func(in int) int {
+//		return in * 2
+// }
+// rawOut, err := functools.Apply(double, in)
+// out := rawOut.([]int)
 func Apply(function, slice interface{}) (ret interface{}, err error) {
 	err = nil
 	defer func() {

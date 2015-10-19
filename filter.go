@@ -5,6 +5,17 @@ import (
 	"reflect"
 )
 
+// Filter apply a function(the first parameter) to each element of a slice(second parameter), and filter out ones which make the function return true.
+// Example:
+// in := []int{1, 2, 3}
+// isEven := func(a int) bool {
+// 		if a%2 == 0 {
+// 			return true
+// 		}
+// 		return false
+// 	}
+// rawOut, err := functools.Filter(isEven, in)
+// out := rawOut.([]int)
 func Filter(function, slice interface{}) (ret interface{}, err error) {
 	err = nil
 	defer func() {
