@@ -12,7 +12,7 @@ GoFunctools is a simple Golang library including some commonly used functional p
        `go get github.com/choleraehyq/gofunctools/functools`
 
 **Documentation**
-    
+    [GoDoc](https://godoc.org/github.com/choleraehyq/gofunctools/functools)
 
 **TODO**
       * LruCache
