@@ -6,8 +6,8 @@ GoFunctools is a simple Golang library including some commonly used functional p
 
 **Features**
 
-      * High level functions such as Apply/Reduce/Filter etc.
-      * Rust-style Option type
+* High level functions such as Apply/Reduce/Filter etc.
+* Rust-style Option type
 
 **Install**
 
@@ -15,7 +15,7 @@ GoFunctools is a simple Golang library including some commonly used functional p
 
 **Documentation**
 
-    [GoDoc](https://godoc.org/github.com/choleraehyq/gofunctools/functools)
+[GoDoc](https://godoc.org/github.com/choleraehyq/gofunctools/functools)
 
 **TODO**
 
