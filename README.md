@@ -4,20 +4,20 @@
 
 GoFunctools is a simple Golang library including some commonly used functional programming tools. 
 
-<h2>Features</h2>
+**Features**
       * High level functions such as Apply/Reduce/Filter etc.
       * Rust-style Option type
 
-<h2>Install</h2>
-       go get github.com/choleraehyq/gofunctools
+**Install**
+       `go get github.com/choleraehyq/gofunctools/functools`
 
-<h2>Documentation</h2>
+**Documentation**
+    
 
-
-<h2>TODO</h2>
+**TODO**
       * LruCache
       * Simple pattern match
       * More high level functions
 
-<h2>License</h2>
+**License**
        BSD 2-Clause
