@@ -7,15 +7,6 @@ import (
 
 // Any applys a function(the first parameter) returning a boolean value to each element of a slice(second parameter), if there exist at least one element make that function return true then Any will return true, otherwise false.
 // Notice that Any return a boolean value NOT an interface{}
-// Example:
-// in := []int{1, 3, 5}
-// isEven := func(a int) bool {
-// 	if a%2 == 0 {
-// 		return true
-// 	}
-// 	return false
-// }
-// out, err := functools.Any(isEven, in)
 func Any(function, slice interface{}) (ret bool, err error) {
 	err = nil
 	defer func() {

@@ -7,15 +7,6 @@ import (
 
 // All applys a function(the first parameter) returning a boolean value to each element of a slice(second parameter), if all elements make that function return true then All will return true, otherwise false.
 // Notice that All return a boolean value NOT an interface{}
-// Example:
-// in := []int{2, 4, 6}
-// isEven := func(a int) bool {
-// 	if a%2 == 0 {
-// 		return true
-// 	}
-// 	return false
-// }
-// out, err := functools.All(isEven, in)
 func All(function, slice interface{}) (ret bool, err error) {
 	err = nil
 	defer func() {

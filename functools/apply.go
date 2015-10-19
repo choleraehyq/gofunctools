@@ -8,13 +8,6 @@ import (
 )
 
 // Apply applys a function(the first parameter) to each element of a slice(second parameter). Just like Map in other language.
-// Example:
-// in := []int{1, 2, 3}
-// double := func(in int) int {
-//		return in * 2
-// }
-// rawOut, err := functools.Apply(double, in)
-// out := rawOut.([]int)
 func Apply(function, slice interface{}) (ret interface{}, err error) {
 	err = nil
 	defer func() {

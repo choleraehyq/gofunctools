@@ -8,21 +8,6 @@ import (
 
 // Compose will compose the received functions, there is no limit on the number of functions.
 // Notice that the return value of the composed function is interface{}.
-// Example:
-// add := func(a, b int) int {
-// 	return a + b
-// }
-// minusOne := func(a int) int {
-// 	return a - 1
-// }
-// isEven := func(a int) bool {
-// 	if a%2 == 0 {
-// 		return true
-// 	}
-// 	return false
-// }
-// composedFunc, err := Compose(add, minusOne, isEven)
-// out := composedFunc(1, 2).(bool)
 func Compose(functions ...interface{}) (ret func(...interface{}) interface{}, err error) {
 	err = nil
 	defer func() {

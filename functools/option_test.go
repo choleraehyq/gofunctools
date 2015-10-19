@@ -43,7 +43,7 @@ func TestBind(t *testing.T) {
 }
 
 func TestAnd(t *testing.T) {
-	opt := Some(nil)
+	opt := None
 	expect := None
 	opt2 := Some(1)
 	ret := opt.And(opt2)

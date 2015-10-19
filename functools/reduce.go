@@ -6,15 +6,6 @@ import (
 )
 
 // Reduce applys a function(the first parameter) of two arguments cumulatively to each element of a slice(second parameter), and the initial value is the third parameter.
-// Example:
-// initial := 0
-// 	in := []int{1, 2, 3}
-// 	add := func(a, b int) int {
-// 		return a + b
-// 	}
-// 	expect := 6
-// 	rawOut, err := Reduce(add, in, initial)
-// out := rawOut.(int)
 func Reduce(function, slice, initial interface{}) (ret interface{}, err error) {
 	err = nil
 	defer func() {
