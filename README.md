@@ -11,7 +11,7 @@ GoFunctools is a simple Golang library including some commonly used functional p
 
 **Install**
 
-       `go get github.com/choleraehyq/gofunctools/functools`
+`go get github.com/choleraehyq/gofunctools/functools`
 
 **Documentation**
 
@@ -19,9 +19,9 @@ GoFunctools is a simple Golang library including some commonly used functional p
 
 **TODO**
 
-      * LruCache
-      * Simple pattern match
-      * More high level functions
+* LruCache
+* Simple pattern match
+* More high level functions
 
 **License**
 
