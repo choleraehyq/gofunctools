@@ -9,12 +9,7 @@ import (
 
 // Apply applys a function(the first parameter) to each element of a slice(second parameter). Just like Map in other language.
 func Apply(function, slice interface{}) (ret interface{}, err error) {
-	err = nil
-	defer func() {
-		if interfaceErr := recover(); interfaceErr != nil {
-			err = errors.New(interfaceErr.(string))
-		}
-	}()
+	defer getErr(&err)
 	ret = apply(function, slice)
 	return
 }
@@ -22,12 +17,12 @@ func Apply(function, slice interface{}) (ret interface{}, err error) {
 func apply(function, slice interface{}) interface{} {
 	in := reflect.ValueOf(slice)
 	if in.Kind() != reflect.Slice {
-		panic("apply: The first param is not a slice")
+		newErr(errors.New("The first param is not a slice"), "apply")
 	}
 	fn := reflect.ValueOf(function)
 	inType := in.Type().Elem()
 	if !verifyApplyFuncType(fn, inType) {
-		panic("apply: Function must be of type func(" + inType.String() + ") outputElemType")
+		newErr(errors.New("Function must be of type func("+inType.String()+") outputElemType"), "apply")
 	}
 	var param [1]reflect.Value
 	out := in

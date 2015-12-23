@@ -8,12 +8,7 @@ import (
 // All applys a function(the first parameter) returning a boolean value to each element of a slice(second parameter), if all elements make that function return true then All will return true, otherwise false.
 // Notice that All return a boolean value NOT an interface{}
 func All(function, slice interface{}) (ret bool, err error) {
-	err = nil
-	defer func() {
-		if interfaceErr := recover(); interfaceErr != nil {
-			err = errors.New(interfaceErr.(string))
-		}
-	}()
+	defer getErr(&err)
 	ret = all(function, slice)
 	return
 }
@@ -21,12 +16,12 @@ func All(function, slice interface{}) (ret bool, err error) {
 func all(function, slice interface{}) bool {
 	in := reflect.ValueOf(slice)
 	if in.Kind() != reflect.Slice {
-		panic("all: The first param is not a slice")
+		newErr(errors.New("The first param is not a slice"), "All")
 	}
 	fn := reflect.ValueOf(function)
 	inType := in.Type().Elem()
 	if !verifyAllFuncType(fn, inType) {
-		panic("all: Function must be of type func(" + inType.String() + ") bool")
+		newErr(errors.New("Function must be of type func("+inType.String()+") bool"), "All")
 	}
 	var param [1]reflect.Value
 	out := true

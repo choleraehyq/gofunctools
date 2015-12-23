@@ -7,12 +7,7 @@ import (
 
 // Reduce applys a function(the first parameter) of two arguments cumulatively to each element of a slice(second parameter), and the initial value is the third parameter.
 func Reduce(function, slice, initial interface{}) (ret interface{}, err error) {
-	err = nil
-	defer func() {
-		if interfaceErr := recover(); interfaceErr != nil {
-			err = errors.New(interfaceErr.(string))
-		}
-	}()
+	defer getErr(&err)
 	ret = reduce(function, slice, initial)
 	return
 }
@@ -20,12 +15,12 @@ func Reduce(function, slice, initial interface{}) (ret interface{}, err error) {
 func reduce(function, slice, initial interface{}) interface{} {
 	in := reflect.ValueOf(slice)
 	if in.Kind() != reflect.Slice {
-		panic("reduce: The first param is not a slice")
+		newErr(errors.New("The first param is not a slice"), "Reduce")
 	}
 	fn := reflect.ValueOf(function)
 	inType := in.Type().Elem()
 	if inType != reflect.TypeOf(initial) {
-		panic("reduce: The Type of first param and elements in second param must be the same")
+		newErr(errors.New("The Type of first param and elements in second param must be the same"), "Reduce")
 	}
 	if !verifyReduceFuncType(fn, inType) {
 		panic("reduce: Function must be of type func(" + inType.String() + ")" + inType.String())

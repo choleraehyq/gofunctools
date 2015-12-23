@@ -8,12 +8,7 @@ import (
 // Any applys a function(the first parameter) returning a boolean value to each element of a slice(second parameter), if there exist at least one element make that function return true then Any will return true, otherwise false.
 // Notice that Any return a boolean value NOT an interface{}
 func Any(function, slice interface{}) (ret bool, err error) {
-	err = nil
-	defer func() {
-		if interfaceErr := recover(); interfaceErr != nil {
-			err = errors.New(interfaceErr.(string))
-		}
-	}()
+	defer getErr(&err)
 	ret = any(function, slice)
 	return
 }
@@ -21,12 +16,12 @@ func Any(function, slice interface{}) (ret bool, err error) {
 func any(function, slice interface{}) bool {
 	in := reflect.ValueOf(slice)
 	if in.Kind() != reflect.Slice {
-		panic("any: The first param is not a slice")
+		newErr(errors.New("The first param is not a slice"), "Any")
 	}
 	fn := reflect.ValueOf(function)
 	inType := in.Type().Elem()
 	if !verifyAnyFuncType(fn, inType) {
-		panic("any: Function must be of type func(" + inType.String() + ") bool")
+		newErr(errors.New("Function must be of type func("+inType.String()+") bool"), "Any")
 	}
 	var param [1]reflect.Value
 	out := false

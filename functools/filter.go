@@ -7,12 +7,7 @@ import (
 
 // Filter apply a function(the first parameter) to each element of a slice(second parameter), and filter out ones which make the function return true.
 func Filter(function, slice interface{}) (ret interface{}, err error) {
-	err = nil
-	defer func() {
-		if interfaceErr := recover(); interfaceErr != nil {
-			err = errors.New(interfaceErr.(string))
-		}
-	}()
+	defer getErr(&err)
 	ret = filter(function, slice)
 	return
 }
@@ -20,12 +15,12 @@ func Filter(function, slice interface{}) (ret interface{}, err error) {
 func filter(function, slice interface{}) interface{} {
 	in := reflect.ValueOf(slice)
 	if in.Kind() != reflect.Slice {
-		panic("filter: The first param is not a slice")
+		newErr(errors.New("The first param is not a slice"), "Filter")
 	}
 	fn := reflect.ValueOf(function)
 	inType := in.Type().Elem()
 	if !verifyFilterFuncType(fn, inType) {
-		panic("apply: Function must be of type func(" + inType.String() + ") bool")
+		newErr(errors.New("Function must be of type func("+inType.String()+") bool"), "Filter")
 	}
 	var param [1]reflect.Value
 	out := reflect.MakeSlice(in.Type(), 0, in.Len())

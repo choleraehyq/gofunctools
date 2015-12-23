@@ -9,12 +9,7 @@ import (
 // Compose will compose the received functions, there is no limit on the number of functions.
 // Notice that the return value of the composed function is interface{}.
 func Compose(functions ...interface{}) (ret func(...interface{}) interface{}, err error) {
-	err = nil
-	defer func() {
-		if interfaceErr := recover(); interfaceErr != nil {
-			err = errors.New(interfaceErr.(string))
-		}
-	}()
+	defer getErr(&err)
 	ret = compose(functions...)
 	return
 }
@@ -41,14 +36,14 @@ func verifyComposeFuncType(functions []interface{}) {
 	for i, function := range functions {
 		fn := reflect.ValueOf(function)
 		if fn.Kind() != reflect.Func {
-			panic("compose: Param " + strconv.Itoa(i) + " is not a function")
+			newErr(errors.New("Param "+strconv.Itoa(i)+" is not a function"), "Compose")
 		}
 	}
 	for i := 0; i < len(functions)-2; i++ {
 		thisFn := reflect.ValueOf(functions[i])
 		nextFn := reflect.ValueOf(functions[i+1])
 		if !canPipe(thisFn, nextFn) {
-			panic("compose: Function " + strconv.Itoa(i) + " and " + strconv.Itoa(i+1) + " cannot be piped.")
+			newErr(errors.New("Function "+strconv.Itoa(i)+" and "+strconv.Itoa(i+1)+" cannot be piped."), "Compose")
 		}
 	}
 }
