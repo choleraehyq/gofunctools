@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-// Reduce applys a function(the first parameter) of two arguments cumulatively to each element of a slice(second parameter), and the initial value is the third parameter.
+// Reduce applies a function (the first parameter) of two arguments cumulatively to each element of a slice (second parameter), and the initial value is the third parameter.
 func Reduce(function, slice, initial interface{}) (ret interface{}, err error) {
 	defer getErr(&err)
 	ret = reduce(function, slice, initial)

@@ -5,15 +5,15 @@ import (
 )
 
 // Type Option represents an optional value: every Option is either Some and contains a value, or None, and contains a nil.
-// They have a number of uses. For example, if a function call maybe failed, it can return an Option that None is returned on error.
+// They have a number of uses. For example, if a function call failes, it can return None on error.
 type Option struct {
 	val interface{}
 }
 
-// None is a special Option containing a nil.
+// None is a special Option containing nil.
 var None Option = Option{nil}
 
-// Some will return a Option containing the given value.
+// Some will return an Option containing the given value.
 // Some cannot use to generate a None. If the given value is nil, it will panic.
 func Some(i interface{}) Option {
 	if i == nil {
@@ -22,7 +22,7 @@ func Some(i interface{}) Option {
 	return Option{i}
 }
 
-// Is_some judge whether this Option is Some.
+// Is_some determines whether this Option is Some. (Contains a value)
 func (this *Option) Is_some() bool {
 	if this.val != nil {
 		return true
@@ -30,7 +30,7 @@ func (this *Option) Is_some() bool {
 	return false
 }
 
-// Is_none judge whether this Option is None.
+// Is_none determines whether this Option is None.
 func (this *Option) Is_none() bool {
 	if this.val == nil {
 		return true
@@ -38,7 +38,7 @@ func (this *Option) Is_none() bool {
 	return false
 }
 
-// Unwrap return the wrapped value of a Option.
+// Unwrap returns the wrapped value of an Option.
 // If the Option is None, it will panic.
 func (this *Option) Unwrap() interface{} {
 	if this.Is_none() {
@@ -47,7 +47,7 @@ func (this *Option) Unwrap() interface{} {
 	return this.val
 }
 
-// Bind will apply a given function to the wrapped value of this Option and return a new Option.
+// Bind will apply a given function to the wrapped value of this Option and return a new Option containing the return value of the paramter function.
 // If this Option is None, then it will return None.
 func (this *Option) Bind(function interface{}) Option {
 	fn := reflect.ValueOf(function)
