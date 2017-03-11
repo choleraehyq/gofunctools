@@ -5,7 +5,8 @@ import (
 	"reflect"
 )
 
-// Partial will make a partial function. The first argument is the function being partialed, the rest arguments is the parameters sending to that function.
+// Partial will apply params (all parameters from 2nd paramter) to the passed function (first parameter).
+// The function returns another function which can be called with the rest of the parameters.
 func Partial(function interface{}, params ...interface{}) (ret func(...interface{}) interface{}, err error) {
 	defer getErr(&err)
 	ret = partial(function, params...)

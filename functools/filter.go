@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-// Filter apply a function(the first parameter) to each element of a slice(second parameter), and filter out ones which make the function return true.
+// Filter apples a function (the first parameter) to each element of a slice (the second parameter), and filters parameters for which the function returns true.
 func Filter(function, slice interface{}) (ret interface{}, err error) {
 	defer getErr(&err)
 	ret = filter(function, slice)

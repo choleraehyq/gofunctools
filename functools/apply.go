@@ -7,7 +7,7 @@ import (
 	"reflect"
 )
 
-// Apply applys a function(the first parameter) to each element of a slice(second parameter). Just like Map in other language.
+// Apply applies a function(the first parameter) to each element of a slice(second parameter). It acts just like Map in other languages.
 func Apply(function, slice interface{}) (ret interface{}, err error) {
 	defer getErr(&err)
 	ret = apply(function, slice)

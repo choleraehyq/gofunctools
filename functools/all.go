@@ -5,8 +5,8 @@ import (
 	"reflect"
 )
 
-// All applys a function(the first parameter) returning a boolean value to each element of a slice(second parameter), if all elements make that function return true then All will return true, otherwise false.
-// Notice that All return a boolean value NOT an interface{}
+// All applies a function(the first parameter) returning a boolean value to each element of a slice(second parameter), if all elements make that function return true then All will return true, otherwise false.
+// Notice that All returns a boolean value, not an interface{}.
 func All(function, slice interface{}) (ret bool, err error) {
 	defer getErr(&err)
 	ret = all(function, slice)
